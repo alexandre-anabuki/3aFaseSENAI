@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:senai@127.0.0.1:3306/clinicadb"
+}
+
+// Tabela Usuario
+model Usuario {
+  id         Int          @id @default(autoincrement())
+  nome       String
+  email      String       @unique
+  senha      String
+  cargo      String
+  Prontuario Prontuario[]
+}
+
+model Prontuario {
+  id                    Int      @id @default(autoincrement())
+  descricao             String
+  data                  DateTime
+  medico_responsavel_id Int
+  paciente_id           Int
+  paciente              Paciente @relation(fields: [paciente_id], references: [id])
+  usuario               Usuario  @relation(fields: [medico_responsavel_id], references: [id])
+}
+
+model Consulta {
+  id                    Int      @id @default(autoincrement())
+  motivo                String
+  data_consulta         DateTime
+  observacoes           String
+  medico_responsavel_id Int
+  paciente_id           Int
+  paciente              Paciente @relation(fields: [paciente_id], references: [id])
+}
+
+model Paciente {
+  id              Int          @id @default(autoincrement())
+  nome            String
+  cpf             String
+  telefone        Int
+  email           String
+  data_nascimento DateTime
+  responsavel     String?
+  sexo            String
+  Prontuario      Prontuario[]
+  Consulta        Consulta[]
+  Exame           Exame[]
+}
+
+model Exame {
+  id           Int      @id @default(autoincrement())
+  tipo_exame   String
+  resultado    String
+  data_exame   DateTime
+  link_arquivo String
+  observacoes  String
+  paciente_id  Int
+  paciente     Paciente @relation(fields: [paciente_id], references: [id])
+}
