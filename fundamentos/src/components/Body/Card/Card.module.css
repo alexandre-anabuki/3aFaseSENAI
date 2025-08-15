@@ -1,3 +1,9 @@
+.cardContainerApi{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
 .card{
     background: #fff;
     border: 1px solid #ddd;
