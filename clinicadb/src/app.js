@@ -4,6 +4,8 @@ import { prismaClient } from '../prisma/prisma.js'
 const app = express()
 app.use(express.json())
 
+/*--USUARIOS--*/
+
 app.get('/usuarios', async (request, response) => {
     try{
         const usuarios = await prismaClient.usuario.findMany()
@@ -82,11 +84,254 @@ app.put("/usuarios/:id", async(req, res)=>{
         if(error.code === 'P2025'){
             res.status(404).send("usuario não encontrado")
         }
-        if(error.code === 'p2002'){
+        if(error.code === 'P2002'){
             res.status(404).send("email ja existe")
         }
       console.log(error)
     }
+})
+
+app.delete("/usuarios/:id", async(req, res) => {
+  const { params } = req
+  try {
+    const usuarioDeletado = await prismaClient.usuario.delete({
+      where: {
+        id: Number(params.id),
+      },
+    })
+    res.status(200).json({
+      message: "Usuário deletado!",
+      data: usuarioDeletado
+    })
+  } catch (error) {
+    if(error.code === 'P2025'){
+      res.status(404).send("usuario não encontrado")
+    }
+    res.status(500).send("erro ao deletar o usuario")
+    console.log(error)
+  }
+})
+
+/*----------------------------------------------------------------------------------------*/
+/*--PACIENTES--*/
+
+app.get('/pacientes', async (request, response) => {
+  try{
+      const pacientes = await prismaClient.paciente.findMany()
+      return response.json(pacientes)
+  }
+  catch(e){
+      console.log(e)
+  }
+})
+
+app.get('/pacientes/:id', async (request, response) =>{
+  try{
+      const paciente = await prismaClient.paciente.findUnique({
+          where: {
+              id: Number(request.params.id)
+          }
+      })
+      if(paciente === null){
+          return response.json("paciente não encontrado")
+      }
+      return response.json(paciente)
+  }
+  catch(e){
+      console.log(e)
+  }
+})
+
+app.post("/pacientes", async(req, res)=> {
+  try {
+    const { body } = req
+    const paciente = await prismaClient.paciente.create({
+      data: {
+        nome: body.nome,
+        sexo: body.sexo,
+        data_nascimento: new Date(body.data_nascimento),
+        cpf: body.cpf,
+        telefone: body.telefone,
+        email: body.email
+      },
+    })
+    return res.status(201).json(paciente)
+  } catch (error) {
+    console.error(error)
+    if(error.code === "P2002"){
+      res.status(404).send("Falha ao cadastrar paciente: Email já cadastrado!")
+    }
+  }
+})
+
+app.put("/pacientes/:id", async(req, res)=>{
+  try {
+    const { body, params } = req
+
+    if(body.nome || body.sexo || body.data_nascimento || body.cpf || body.telefone || body.email){
+        await prismaClient.paciente.update({
+          where: { id: Number(params.id) },
+          data: { 
+            ...body
+           },
+        })
+        
+        const pacienteAtualizado = await prismaClient.paciente.findUnique({
+            where: {
+                id: Number(params.id)
+              }
+          })
+          
+          res.status(201).json({
+              message: "Paciente atualizado!",
+              data: pacienteAtualizado
+          })
+    }
+    else{
+      res.status(404).send("atributos não condiz com o esquema")
+    }
+      
+  } catch (error) {
+      if(error.code === 'P2025'){
+          res.status(404).send("paciente não encontrado")
+      }
+      if(error.code === 'P2002'){
+          res.status(404).send("email ja existe")
+      }
+    console.log(error)
+  }
+})
+
+app.delete("/pacientes/:id", async(req, res) => {
+const { params } = req
+try {
+  const pacienteDeletado = await prismaClient.paciente.delete({
+    where: {
+      id: Number(params.id),
+    },
+  })
+  res.status(200).json({
+    message: "Paciente deletado!",
+    data: pacienteDeletado
+  })
+} catch (error) {
+  if(error.code === 'P2025'){
+    res.status(404).send("paciente não encontrado")
+  }
+  res.status(500).send("erro ao deletar o paciente")
+  console.log(error)
+}
+})
+
+/*--------------------------------------------------------------------------------------*/
+/*--EXAMES--*/
+
+app.get('/exames', async (request, response) => {
+  try{
+      const exames = await prismaClient.exame.findMany()
+      return response.json(exames)
+  }
+  catch(e){
+      console.log(e)
+  }
+})
+
+app.get('/exames/:id', async (request, response) =>{
+  try{
+      const exame = await prismaClient.exame.findUnique({
+          where: {
+              id: Number(request.params.id)
+          }
+      })
+      if(exame === null){
+          return response.json("exame não encontrado")
+      }
+      return response.json(exame)
+  }
+  catch(e){
+      console.log(e)
+  }
+})
+
+app.post("/exames", async(req, res)=> {
+  try {
+    const { body } = req
+    const exame = await prismaClient.exame.create({
+      data: {
+        tipo_exame: body.tipo_exame,
+        resultado: body.resultado,
+        data_exame: new Date(body.data_exame),
+        link_arquivo: body.link_arquivo,
+        observacoes: body.observacoes,
+        paciente_id: body.paciente_id
+      },
+    })
+    return res.status(201).json(exame)
+  } catch (error) {
+    console.error(error)
+    if(error.code === "P2002"){
+      res.status(404).send("Falha ao cadastrar exame: Email já cadastrado!")
+    }
+  }
+})
+
+app.put("/exames/:id", async(req, res)=>{
+  try {
+    const { body, params } = req
+
+    if(body.tipo_exame || body.resultado || body.data_exame || body.observacoes || body.paciente_id || body.link_arquivo){
+        await prismaClient.exame.update({
+          where: { id: Number(params.id) },
+          data: { 
+            ...body
+           },
+        })
+        
+        const exameAtualizado = await prismaClient.exame.findUnique({
+            where: {
+                id: Number(params.id)
+              }
+          })
+          
+          res.status(201).json({
+              message: "exame atualizado!",
+              data: exameAtualizado
+          })
+    }
+    else{
+      res.status(404).send("atributos não condiz com o esquema")
+    }
+      
+  } catch (error) {
+      if(error.code === 'P2025'){
+          res.status(404).send("exame não encontrado")
+      }
+      if(error.code === 'P2002'){
+          res.status(404).send("email ja existe")
+      }
+    console.log(error)
+  }
+})
+
+app.delete("/exames/:id", async(req, res) => {
+const { params } = req
+try {
+  const exameDeletado = await prismaClient.exame.delete({
+    where: {
+      id: Number(params.id),
+    },
+  })
+  res.status(200).json({
+    message: "exame deletado!",
+    data: exameDeletado
+  })
+} catch (error) {
+  if(error.code === 'P2025'){
+    res.status(404).send("exame não encontrado")
+  }
+  res.status(500).send("erro ao deletar o exame")
+  console.log(error)
+}
 })
 
 app.listen(3000, ()=> console.log("api rodando"))

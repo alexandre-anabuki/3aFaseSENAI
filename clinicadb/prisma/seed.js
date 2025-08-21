@@ -38,6 +38,17 @@ async function main() {
             // }
         },
     })
+
+    await prisma.exame.create({
+        data: {
+            tipo_exame: "radiografia",
+            resultado: "femur fraturado",
+            data_exame: new Date("2025-10-30"),
+            link_arquivo: "aleatorio",
+            observacoes: "grave",
+            paciente_id: 1,
+        },
+    })
 }
 
 main()
