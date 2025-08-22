@@ -17,19 +17,25 @@ export const CardApi = () => {
 
     const [users, setUsers] = useState([])
 
+    const [filtro, setFiltro] = useState("")
+
     useEffect(() =>{
         fetch('https://jsonplaceholder.typicode.com/users')
         .then(res => res.json())
         .then(data => {
-            setUsers(data)
+            const filtrados = data.filter((user) => user.name.toLowerCase().includes(filtro.toLowerCase()))
+            setUsers(filtrados)
+
         })
         console.log(users)
-    },[])
+    },[filtro])
     
     return(
         <>
         {/* <p>{contador}</p>
         <button onClick={incrementaValor}>Incrementa</button> */}
+
+        <input className={styles.inputSearch} type="text" placeholder="filtrar por nome . . ." value={filtro} onChange={(e) => setFiltro(e.target.value)}/>
 
         <div className={styles.cardContainerApi}>
             {
