@@ -10,6 +10,7 @@ import Home from './pages/Home/Home';
 import Sobre from './pages/Sobre/Sobre';
 import Main from './layout/Main/Main';
 import Blog from './pages/Blog/Blog';
+import PostDetail from './pages/Blog/PostDetail';
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
     children:[
       {path:"/", element:<Home />},
       {path:"sobre", element:<Sobre />},
-      {path:"blog", element:<Blog />}
+      {path:"blog", element:<Blog />},
+      {path:"post/:id", element:<PostDetail />}
     ]
   }
   // {

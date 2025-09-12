@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 
 
 const Blog = () => {
@@ -14,13 +15,16 @@ const Blog = () => {
 
   return (
     <>
-      <div className='flex gap-2'>
+      <div className='flex gap-4 flex-wrap'>
         {
           posts && posts.map(post =>(
             <div key={post.id} className='card'>
               <img src={post.image} />
               <h2>{post.title}</h2>
               <p>Views: {post.views}</p>
+              <Link to={`/post/${post.id}`} className='text-blue-500 underline'>
+                Leia Mais
+              </Link>
             </div>
           ))
         }
