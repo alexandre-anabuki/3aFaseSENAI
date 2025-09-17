@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = "mysql://root:senai@127.0.0.1:3306/clinicadb"
+  provider = "postgresql"
+  url      = "postgresql://postgres:senai@127.0.0.1:5432/clinicadb"
 }
 
 // Tabela Usuario
@@ -21,6 +21,8 @@ model Usuario {
   senha      String
   cargo      String
   Prontuario Prontuario[]
+
+  @@map("usuario")
 }
 
 model Prontuario {
@@ -31,6 +33,8 @@ model Prontuario {
   paciente_id           Int
   paciente              Paciente @relation(fields: [paciente_id], references: [id])
   usuario               Usuario  @relation(fields: [medico_responsavel_id], references: [id])
+
+  @@map("prontuario")
 }
 
 model Consulta {
@@ -41,6 +45,8 @@ model Consulta {
   medico_responsavel_id Int
   paciente_id           Int
   paciente              Paciente @relation(fields: [paciente_id], references: [id])
+
+  @@map("consulta")
 }
 
 model Paciente {
@@ -55,6 +61,8 @@ model Paciente {
   Prontuario      Prontuario[]
   Consulta        Consulta[]
   Exame           Exame[]
+
+  @@map("paciente")
 }
 
 model Exame {
@@ -66,4 +74,6 @@ model Exame {
   observacoes  String
   paciente_id  Int
   paciente     Paciente @relation(fields: [paciente_id], references: [id])
+
+  @@map("exame")
 }
