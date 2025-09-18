@@ -2,9 +2,17 @@ import { prismaClient } from "../../../prisma/prisma.js";
 
 class ConsultaController {
     constructor() { }
-    async getTodosOsConsultas(_, res) {
+    async getTodosOsConsultas(req, res) {
+        const { page, limit } = req.query
+        const pageNumber = Number(page)
+        const limitNumber = Number(limit)
         try {
-            const consultas = await prismaClient.consulta.findMany();
+            const consultas = await prismaClient.consulta.findMany(
+                {
+                    skip: (pageNumber-1)*limitNumber,
+                    take: limitNumber,
+                }
+            );
             return res.json(consultas)
         }
         catch (e) {
