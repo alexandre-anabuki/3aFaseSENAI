@@ -1,22 +1,46 @@
 import { prismaClient } from "../../../prisma/prisma.js";
+import { getToken } from "../../utils/jwt.js";
 
 class ConsultaController {
     constructor() { }
+    // async getTodosOsConsultas(req, res) {
+    //     const { page, limit } = req.query
+    //     const pageNumber = Number(page)
+    //     const limitNumber = Number(limit)
+    //     try {
+    //         const consultas = await prismaClient.consulta.findMany(
+    //             {
+    //                 skip: (pageNumber-1)*limitNumber,
+    //                 take: limitNumber,
+    //             }
+    //         );
+    //         return res.json(consultas)
+    //     }
+    //     catch (e) {
+    //         console.log(e)
+    //     }
+    // }
     async getTodosOsConsultas(req, res) {
-        const { page, limit } = req.query
-        const pageNumber = Number(page)
-        const limitNumber = Number(limit)
         try {
-            const consultas = await prismaClient.consulta.findMany(
-                {
-                    skip: (pageNumber-1)*limitNumber,
-                    take: limitNumber,
+            const token = getToken(req.headers.authorization);
+            const {query} = req
+            const consultas = await prismaClient.consulta.findMany({
+                where:{
+                    data_consulta:{
+                        lte: query.dataFinal ? new Date(query.dataFinal) : undefined,
+                        gte: query.dataInicio ? new Date(query.dataInicio) : undefined
+                    },
+                    medico_responsavel_id:{
+                        medico_responsavel_id: query.medico_responsavel_id
+                    },
+                    paciente:{
+                        nome: query.paciente
+                    }
                 }
-            );
-            return res.json(consultas)
-        }
-        catch (e) {
-            console.log(e)
+            });
+            return res.json(consultas);
+        } catch (error) {
+            console.log(error)
         }
     }
 

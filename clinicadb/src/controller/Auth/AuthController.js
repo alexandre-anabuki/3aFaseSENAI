@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
-import { prismaClient } from "../../prisma/prisma.ts";
+import { prismaClient } from "../../../prisma/prisma.js";
 import {
     signAccessToken,
     signRefreshToken,
     verifyRefresh,
-} from "../utils/jwt.ts";
+} from "../../utils/jwt.js";
 
 
 class AuthController {
@@ -15,13 +15,13 @@ class AuthController {
         res
     ) {
         try {
-            const { email, password, name } = req.body;
+            const { email, senha, nome, cargo } = req.body;
             // Validação básica
-            if (!email || !password) {
+            if (!email || !senha) {
                 return res.status(400).json({ error: "Email e senha são obrigatórios" });
             }
             // Verificar se usuário já existe
-            const existingUser = await prismaClient.user.findUnique({
+            const existingUser = await prismaClient.usuario.findUnique({
                 where: { email },
             });
             if (existingUser) {
@@ -29,14 +29,14 @@ class AuthController {
             }
             // Hash da senha com bcrypt
             const saltRounds = 10;
-            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            const hashedPassword = await bcrypt.hash(senha, saltRounds);
             // Criar usuário no banco de dados
-            const user = await prismaClient.user.create({
-                data: { email, password: hashedPassword, name: name || null },
+            const user = await prismaClient.usuario.create({
+                data: { email, senha: hashedPassword, nome: nome || null, cargo: cargo },
                 select: {
                     id: true,
                     email: true,
-                    name: true,
+                    nome: true,
                 },
             });
             return res.status(201).json(user);
@@ -49,23 +49,23 @@ class AuthController {
 
     async login(req, res) {
         try {
-            const { email, password } = req.body;
-            const user = await prismaClient.user.findUnique({ where: { email } }); // Verificar se usuário existe e senha está correta
-            if (!user || !(await bcrypt.compare(password, user.password))) {
+            const { email, senha } = req.body;
+            const user = await prismaClient.usuario.findUnique({ where: { email } }); // Verificar se usuário existe e senha está correta
+            if (!user || !(await bcrypt.compare(senha, user.senha))) {
                 return res.status(401).json({ error: "Credenciais inválidas" });
             }
             // Gerar access token (curta duração)
             const accessToken = signAccessToken({
                 userId: user.id,
                 email: user.email,
-                name: user.name,
+                nome: user.nome,
             });
 
             // Gerar refresh token (longa duração)
             const refreshToken = signRefreshToken({
                 userId: user.id,
                 email: user.email,
-                name: user.name,
+                nome: user.nome,
             });
             // Armazenar refresh token no banco de dados
             const expiresAt = new Date();
@@ -75,7 +75,7 @@ class AuthController {
                 data: {
                     token: refreshToken,
                     type: "refresh",
-                    userId: user.id,
+                    usuarioId: user.id,
                     expiresAt,
                 },
             });
@@ -85,7 +85,7 @@ class AuthController {
                 user: {
                     id: user.id,
                     email: user.email,
-                    name: user.name,
+                    nome: user.nome,
                 },
             });
         } catch (error) {
@@ -96,33 +96,33 @@ class AuthController {
     };
 
     // desabilitado pq o professor vai fazer junto
-    // async refresh(
-    //     req,
-    //     res
-    // ) {
-    //     const { refreshToken } = req.body;
-    //     const storedRefreshToken = await prismaClient.token.findFirst({
-    //         where: { token: refreshToken },
-    //     });
-    //     if (
-    //         !storedRefreshToken ||
-    //         storedRefreshToken.revoked ||
-    //         storedRefreshToken.expiresAt < new Date()
-    //     )
-    //         return res.status(401).json({ error: "invalid refresh token" });
+    async refresh(
+        req,
+        res
+    ) {
+        const { refreshToken } = req.body;
+        const storedRefreshToken = await prismaClient.token.findFirst({
+            where: { token: refreshToken },
+        });
+        if (
+            !storedRefreshToken ||
+            storedRefreshToken.revoked ||
+            storedRefreshToken.expiresAt < new Date()
+        )
+            return res.status(401).json({ error: "invalid refresh token" });
 
-    //     try {
-    //         const payload = verifyRefresh(refreshToken);
-    //         const accessToken = signAccessToken({
-    //             userId: payload.id,
-    //             email: payload.email,
-    //             name: payload.name,
-    //         });
-    //         return res.json({ accessToken });
-    //     } catch {
-    //         return res.status(401).json({ error: "invalid refresh token" });
-    //     }
-    // };
+        try {
+            const payload = verifyRefresh(refreshToken);
+            const accessToken = signAccessToken({
+                userId: payload.id,
+                email: payload.email,
+                nome: payload.nome,
+            });
+            return res.json({ accessToken });
+        } catch {
+            return res.status(401).json({ error: "invalid refresh token" });
+        }
+    };
 
     async logout(
         req,

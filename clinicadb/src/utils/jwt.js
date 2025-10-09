@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { env } from "../env.ts";
+import { env } from "../../env.js";
 
 export function signAccessToken(payload) {
   return jwt.sign(payload, env.accessSecret, { expiresIn: Number(env.accessTtl) });
@@ -12,4 +12,9 @@ export function verifyAccess(token) {
 }
 export function verifyRefresh(token) {
   return jwt.verify(token, env.refreshSecret);
+}
+
+export function getToken(token) {
+  const tokenWithoutBearer = token.slice("Bearer ".length);
+  return jwt.decode(tokenWithoutBearer);
 }

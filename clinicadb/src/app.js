@@ -4,6 +4,8 @@ import { exameRouter } from './routes/exames.js';
 import { pacienteRouter } from './routes/pacientes.js';
 import { prontuarioRouter } from './routes/prontuarios.js';
 import { consultaRouter } from './routes/consultas.js';
+import authRouter from './routes/authRoutes.js';
+import { auth } from './middleware/auth.js';
 
 export const app = express()
 app.use(express.json())
@@ -22,6 +24,10 @@ app.use(prontuarioRouter);
 
 // rotas consulta
 app.use(consultaRouter);
+
+app.use('/auth', authRouter)
+
+app.use(auth)
 
 
 /*-------------------------------------------------------------------------*/

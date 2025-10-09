@@ -1,38 +1,90 @@
 import { prismaClient } from "../../../prisma/prisma.js";
+import { getToken } from "../../utils/jwt.js";
 
 class ProntuarioController {
     constructor() { }
+    // async getTodosOsProntuarios(req, res) {
+    //     const { page, limit } = req.query
+    //     const pageNumber = Number(page)
+    //     const limitNumber = Number(limit)
+    //     try {
+    //         const prontuarios = await prismaClient.prontuario.findMany(
+    //             {
+    //                 skip: (pageNumber-1)*limitNumber,
+    //                 take: limitNumber,
+    //             }
+    //         );
+    //         return res.json(prontuarios)
+    //     }
+    //     catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+
     async getTodosOsProntuarios(req, res) {
-        const { page, limit } = req.query
-        const pageNumber = Number(page)
-        const limitNumber = Number(limit)
         try {
-            const prontuarios = await prismaClient.prontuario.findMany(
-                {
-                    skip: (pageNumber-1)*limitNumber,
-                    take: limitNumber,
+            const token = getToken(req.headers.authorization);
+            const {query} = req
+            const prontuarios = await prismaClient.prontuario.findMany({
+                // where: {
+                //     medico_responsavel_id: token.userId
+                // },
+                // include:{
+                //     paciente:{
+                //         where:{
+                //             nome: query.paciente
+                //         }
+                //         // select:{
+                //         //     nome: query.paciente
+                //         // }
+                //     }
+                // }
+                where:{
+                    data:{
+                        lte: query.dataFinal ? new Date(query.dataFinal) : undefined,
+                        gte: query.dataInicio ? new Date(query.dataInicio) : undefined
+                    },
+                    paciente:{
+                        nome: query.paciente
+                    }
                 }
-            );
-            return res.json(prontuarios)
-        }
-        catch (e) {
-            console.log(e)
+            });
+            return res.json(prontuarios);
+        } catch (error) {
+            console.log(error)
         }
     }
 
+    // async getProntuarioPorId(req, res) {
+    //     try {
+    //         const { params } = req
+    //         const prontuario = await prismaClient.prontuario.findUnique({
+    //             where: {
+    //                 id: Number(params.id)
+    //             }
+    //         })
+    //         if (!prontuario) return res.status(404).send("Prontuário não existe!")
+    //         return res.json(prontuario)
+    //     }
+    //     catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+
     async getProntuarioPorId(req, res) {
         try {
-            const { params } = req
+            const token = getToken(req.headers.authorization);
+
             const prontuario = await prismaClient.prontuario.findUnique({
                 where: {
-                    id: Number(params.id)
+                    id: Number(req.params.id),
+                    // medico_responsavel_id: token.userId
                 }
-            })
+            });
             if (!prontuario) return res.status(404).send("Prontuário não existe!")
             return res.json(prontuario)
-        }
-        catch (e) {
-            console.log(e)
+        } catch (error) {
+            console.log(error)
         }
     }
 

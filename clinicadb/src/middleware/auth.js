@@ -1,4 +1,4 @@
-import { verifyAccess } from "../utils/jwt.ts";
+import { verifyAccess } from "../utils/jwt.js";
 
 export function auth(req, res, next) {
     const hdr = req.headers.authorization;
