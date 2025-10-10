@@ -8,11 +8,16 @@ import Login from './pages/Login/Login'
 import { AuthProvider } from './contexts/AuthContext'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Dashboard from './pages/Dashboard/Dashboard'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Login />
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />
   }
 ])
 

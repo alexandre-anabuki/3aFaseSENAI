@@ -2,12 +2,22 @@ import { useState } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import axios from "axios"
 import { toast } from "react-toastify"
+import { useNavigate } from "react-router"
+import Modal from "../Modal/Modal"
+import RegisterUser from "../RegisterUser/RegisterUser"
 
 const LoginForm = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
     //contexto
     const { login } = useAuth()
+
+    //rotas com react-route
+    const navigate = useNavigate()
+
+    //modal
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     //função validação do login
     const handleLogin = async(e) =>{
@@ -33,8 +43,15 @@ const LoginForm = () => {
                 autoClose: 3000,
                 hideProgressBar: true
             })
+
+            setTimeout(() => navigate('/dashboard'), 2000)
         }
-        catch{
+        catch(error){
+            console.error('erro ao verificar o usuario')
+            toast.error('erro ao conectar com o servidor', {
+                autoClose: 3000,
+                hideProgressBar: true
+            })
 
         }
     }
@@ -55,15 +72,18 @@ const LoginForm = () => {
                     <label htmlFor="password" className="block text-sm font-medium mb-1">Senha</label>
                     <input type="password" id="password"  value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
-                <button type="submit" className="w-full bg-cyan-700 text-white p-2 rounded-xl hover:bg-cyan-800 transition-colors">Entrar</button>
+                <button type="submit" className="w-full bg-cyan-700 text-white p-2 rounded-xl hover:bg-cyan-800 transition-colors cursor-pointer">Entrar</button>
 
             </form>
 
             <div className="flex justify-between mt-4 text-sm">
-                <button>Esqueceu sua senha?</button>
-                <button>Criar conta</button>
+                <button className="cursor-pointer">Esqueceu sua senha?</button>
+                <button className="cursor-pointer" onClick={() => setIsModalOpen(true)}>Criar conta</button>
             </div>
 
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <RegisterUser />
+            </Modal>
         </div>
     )
 }
