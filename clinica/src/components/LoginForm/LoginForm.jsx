@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import axios from "axios"
 import { toast } from "react-toastify"
@@ -11,13 +11,19 @@ const LoginForm = () => {
     const [password, setPassword] = useState("")
 
     //contexto
-    const { login } = useAuth()
+    const { login, user } = useAuth()
 
     //rotas com react-route
     const navigate = useNavigate()
 
     //modal
     const [isModalOpen, setIsModalOpen] = useState(false)
+
+    useEffect(() => {
+        if(user){
+            navigate('/dashboard')
+        }
+    }), [user, navigate]
 
     //função validação do login
     const handleLogin = async(e) =>{
