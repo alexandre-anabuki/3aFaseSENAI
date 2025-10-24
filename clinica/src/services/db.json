@@ -15,5 +15,70 @@
       "email": "luciano12@gmail.com",
       "password": "87654321"
     }
+  ],
+
+  "patients": [
+    {
+      "id": "1",
+      "fullName": "João da Silva",
+      "gender": "Masculino",
+      "birthdate": "11/08/2000",
+      "cpf": "958.555.555-55",
+      "rg": "958.555.555-55",
+      "martilStatus": "Solteiro",
+      "phone": "48-98888-5555",
+      "email": "joao@email.com",
+      "birthplace": "Florianópolis",
+      "emergencyContact": "48-96666-5555",
+      "allergies": "alergia A, alergia B",
+      "specialCare": "evitar açucar",
+      "healthInsurance": "Unimed",
+      "insuranceNumber": "1251112",
+      "insuranceValidity": "15/10/2027"
+    },
+    {
+      "id": "2",
+      "fullName": "Maria Julia",
+      "gender": "Masculino",
+      "birthdate": "11/08/2000",
+      "cpf": "958.555.555-55",
+      "rg": "958.555.555-55",
+      "martilStatus": "Solteiro",
+      "phone": "48-98888-5555",
+      "email": "joao@email.com",
+      "birthplace": "Florianópolis",
+      "emergencyContact": "48-96666-5555",
+      "allergies": "alergia A, alergia B",
+      "specialCare": "evitar açucar",
+      "healthInsurance": "Unimed",
+      "insuranceNumber": "1251112",
+      "insuranceValidity": "15/10/2027"
+    }
+  ],
+
+  "consultas": [
+    {
+      "patientId": "1",
+      "reason": "gripe",
+      "date": "27-07-2025",
+      "time": "15:30",
+      "description": "dores de cabeça e coriza",
+      "medication": "benegrip",
+      "dosagePreucation": "2 vezes ao dia",
+      "id": "1"
+    }
+  ],
+
+  "exames": [
+    {
+      "name": "cardiológico",
+      "date": "12-07-2023",
+      "time": "15:30",
+      "type": "caterismo",
+      "laboratory": "santa luzia",
+      "documentUrl": "site.com.br/exame.pdf",
+      "results": "dados do exame",
+      "id": "1"
+    }
   ]
 }

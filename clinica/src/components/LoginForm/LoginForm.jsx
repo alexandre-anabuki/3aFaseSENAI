@@ -30,11 +30,15 @@ const LoginForm = () => {
         e.preventDefault()
 
         try{
+            const data = {
+            //     email: email,
+            //     senha: password
+            }
             const response = await axios.get('http://localhost:3000/users',{
                 params:{ email, password }
             })
 
-            //console.log(response)
+            console.log(response)
             if(response.data.length === 0){
                 console.log("usuário não encontrado")
                 toast.error("usuário não encontrado. Verifique o email e senha",{

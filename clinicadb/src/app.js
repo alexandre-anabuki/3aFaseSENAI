@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from "cors"
 import { usuarioRouter } from './routes/usuarios.js';
 import { exameRouter } from './routes/exames.js';
 import { pacienteRouter } from './routes/pacientes.js';
@@ -7,7 +8,10 @@ import { consultaRouter } from './routes/consultas.js';
 import authRouter from './routes/authRoutes.js';
 import { auth } from './middleware/auth.js';
 
+
 export const app = express()
+
+app.use(cors())
 app.use(express.json())
 
 // rotas usuario
@@ -610,4 +614,4 @@ app.use(auth)
 //   }
 // })
 
-app.listen(3000, ()=> console.log("api rodando"))
+app.listen(4000, ()=> console.log("api rodando"))

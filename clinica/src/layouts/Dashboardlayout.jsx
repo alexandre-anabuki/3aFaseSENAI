@@ -1,5 +1,6 @@
 import { Outlet } from "react-router"
 import { useAuth } from "../contexts/AuthContext"
+import SideMenu from "../components/SideMenu/SideMenu"
 
 
 const Dashboardlayout = () => {
@@ -7,7 +8,7 @@ const Dashboardlayout = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-        <div>SideMenu</div>
+        <SideMenu />
 
         {/*conteudo principal*/}
         <main className="flex-1 flex flex-col">
@@ -15,7 +16,7 @@ const Dashboardlayout = () => {
                 <h1 className="text-xl font-bold text-cyan-800">Painel do sistema</h1>
                 {user &&(
                     <div className="flex items-center gap-4">
-                        <span className="text-gray-700">bem-vindo, {user}</span>
+                        <span className="text-gray-700">bem-vindo, {user.email}</span>
                         <button onClick={logout} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition cursor-pointer">Sair</button>
                     </div>
                 )}
