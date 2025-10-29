@@ -614,4 +614,4 @@ app.use(auth)
 //   }
 // })
 
-app.listen(4000, ()=> console.log("api rodando"))
+app.listen(3000, ()=> console.log("api rodando"))
