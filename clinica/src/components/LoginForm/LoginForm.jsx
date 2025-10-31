@@ -30,14 +30,14 @@ const LoginForm = () => {
         e.preventDefault()
 
         try{
-            // const response = await axios.get('http://localhost:3000/users',{
-            //     params:{ email, password }
-            // })
-
-            const response = await axios.post('http://localhost:3000/auth/login', {
-                email: email,
-                senha: password
+            const response = await axios.get('http://localhost:3000/users',{
+                params:{ email, password }
             })
+
+            // const response = await axios.post('http://localhost:3000/auth/login', {
+            //     email: email,
+            //     senha: password
+            // })
 
             console.log(response)
             if(response.data.length === 0){
