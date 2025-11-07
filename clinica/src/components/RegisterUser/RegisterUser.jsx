@@ -41,13 +41,13 @@ const RegisterUser = () => {
 
     setIsSaving(true)
     try{
-      //await axios.post('http://localhost:3000/users', {email, password})
-      const response = await axios.post('http://localhost:3000/auth/register',{
-        nome: nome,
-        cargo: cargo,
-        email: email,
-        senha: password
-      })
+      await axios.post('http://localhost:3000/users', {email, password})
+      // const response = await axios.post('http://localhost:3000/auth/register',{
+      //   nome: nome,
+      //   cargo: cargo,
+      //   email: email,
+      //   senha: password
+      // })
       setIsSaving(false)
 
       resetForm()
