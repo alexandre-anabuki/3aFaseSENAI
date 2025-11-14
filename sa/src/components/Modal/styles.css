@@ -1,0 +1,31 @@
+.modal-login {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-login-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    max-height: 100%;
+    overflow: auto
+  }
+  
+  .modal-login-close {
+    position: relative;
+    left: 95%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #121212;
+  }
+  
