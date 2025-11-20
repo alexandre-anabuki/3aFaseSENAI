@@ -1,0 +1,202 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "luciano.rocha@edu.sc.senai.br",
+      "password": "123465798"
+    },
+    {
+      "id": "2",
+      "email": "luciano.pereira@gmail.com",
+      "password": "2514411"
+    }
+  ],
+  "patients": [
+    {
+      "id": "1",
+      "fullName": "João",
+      "gender": "Masculino",
+      "birthdate": "11/12/1980",
+      "cpf": "958.521.251.65",
+      "rg": "1215111154",
+      "maritalStatus": "Solteiro",
+      "phone": "(48)9525-56232",
+      "email": "joao@email.com",
+      "birthplace": "joao pessoa",
+      "emergencyContact": "(48)9525-56232",
+      "allergies": "alergia A, alergia B",
+      "specialCare": "cuidados",
+      "healthInsurance": "convênio X",
+      "insuranceNumber": "15155115",
+      "insuranceValidity": "15/01/2025",
+      "address": {
+        "cep": "88052-562",
+        "city": "florianopolis",
+        "state": "SC",
+        "street": "rua x",
+        "number": "32",
+        "complement": "casa",
+        "neighborhood": "centro",
+        "reference": "perto de x"
+      }
+    },
+    {
+      "id": "2",
+      "fullName": "Maria",
+      "gender": "Masculino",
+      "birthdate": "11/12/1960",
+      "cpf": "958.521.251.65",
+      "rg": "1215111154",
+      "maritalStatus": "Solteiro",
+      "phone": "(48)9525-56232",
+      "email": "maria@email.com",
+      "birthplace": "joao pessoa",
+      "emergencyContact": "(48)9525-56232",
+      "allergies": "alergia A, alergia B",
+      "specialCare": "cuidados",
+      "healthInsurance": "convênio X",
+      "insuranceNumber": "15155115",
+      "insuranceValidity": "15/01/2025",
+      "address": {
+        "cep": "88052-562",
+        "city": "florianopolis",
+        "state": "SC",
+        "street": "rua x",
+        "number": "32",
+        "complement": "casa",
+        "neighborhood": "centro",
+        "reference": "perto de x"
+      }
+    },
+    {
+      "id": "00d1",
+      "fullName": "Pedro",
+      "gender": "masculino",
+      "birthdate": "2000-02-14",
+      "cpf": "958.585.454-11",
+      "rg": "1111311313",
+      "maritalStatus": "solteiro(a)",
+      "phone": "(48) 98555-2555",
+      "email": "pedro@gmail.com",
+      "birthplace": "Brasileiro",
+      "emergencyContact": "(48) 99999-8898",
+      "allergies": "",
+      "specialCare": "",
+      "healthInsurance": "Unimed",
+      "insuranceNumber": "",
+      "insuranceValidity": "",
+      "address": {
+        "cep": "88054-637",
+        "city": "Florianópolis",
+        "state": "SC",
+        "street": "Servidão Sul Brasil",
+        "number": "",
+        "complement": "",
+        "neighborhood": "Canasvieiras",
+        "reference": ""
+      }
+    },
+    {
+      "id": "afc4",
+      "fullName": "Luciano teste",
+      "gender": "masculino",
+      "birthdate": "1999-02-10",
+      "cpf": "967.385.955-11",
+      "rg": "51511155151",
+      "maritalStatus": "solteiro(a)",
+      "phone": "(48) 95959-5955",
+      "email": "luciano@gmail.com",
+      "birthplace": "brasileiro",
+      "emergencyContact": "(95) 95959-5955",
+      "allergies": "camarão, poeira",
+      "specialCare": "cuidados",
+      "healthInsurance": "unimed",
+      "insuranceNumber": "1212111",
+      "insuranceValidity": "2025-10-24",
+      "address": {
+        "cep": "88054-637",
+        "city": "Florianópolis",
+        "state": "SC",
+        "street": "Servidão Sul Brasil",
+        "number": "21",
+        "complement": "ssdsdfaf",
+        "neighborhood": "Canasvieiras",
+        "reference": "dfasd"
+      }
+    },
+    {
+      "id": "e06b",
+      "fullName": "teste",
+      "gender": "masculino",
+      "birthdate": "2000-11-01",
+      "cpf": "321.346.434-15",
+      "rg": "12345678",
+      "maritalStatus": "solteiro(a)",
+      "phone": "(48) 55555-5555",
+      "email": "teste@email.com",
+      "birthplace": "test",
+      "emergencyContact": "",
+      "allergies": "testando",
+      "specialCare": "",
+      "healthInsurance": "",
+      "insuranceNumber": "",
+      "insuranceValidity": "2000-12-31",
+      "address": {
+        "cep": "88035-110",
+        "city": "Florianópolis",
+        "state": "SC",
+        "street": "Rua Coronel Maurício Spalding de Souza",
+        "number": "",
+        "complement": "até 729/730",
+        "neighborhood": "Santa Mônica",
+        "reference": ""
+      }
+    }
+  ],
+  "consults": [
+    {
+      "patientId": 2,
+      "reason": "Resfriado 2",
+      "date": "2023-07-27",
+      "time": "15:30",
+      "description": "fdfadsfasdf ",
+      "medication": "fdf asdf asfdasdf a",
+      "dosagePrecautions": "fdaf dfasd a",
+      "id": "2"
+    },
+    {
+      "id": "0346",
+      "patientId": "e06b",
+      "reason": "testar",
+      "date": "2000-02-22",
+      "time": "19:22",
+      "description": "testar",
+      "medication": "teste",
+      "dosagePrecautions": "testar"
+    }
+  ],
+  "exams": [
+    {
+      "id": "0d82",
+      "name": "teste",
+      "date": "2222-02-23",
+      "time": "19:53",
+      "type": "teste",
+      "laboratory": "teste",
+      "documentUrl": "",
+      "results": "teste para testar",
+      "patientId": "e06b"
+    },
+    {
+      "id": "bcf6",
+      "name": "testar",
+      "date": "2222-02-23",
+      "time": "02:23",
+      "type": "teste",
+      "laboratory": "teste",
+      "documentUrl": "",
+      "results": "testando o teste",
+      "patientId": "e06b"
+    }
+  ]
+}
