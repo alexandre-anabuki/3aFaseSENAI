@@ -1,0 +1,76 @@
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// This is your Prisma schema file,
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+  engineType      = "client" // enable Prisma ORM without Rust
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+// Tabela usuario
+model Usuario {
+  id         Int          @id @default(autoincrement())
+  nome       String
+  email      String       @unique
+  password   String
+  data_nascimento    String
+  cpf        String
+  rg         String
+  telefone   String
+  endereco   Endereco[]
+  movimentacao  Movimentacao[]
+
+  @@map("usuario")
+}
+
+model Endereco {
+  id              Int          @id @default(autoincrement())
+  cep             String
+  cidade          String
+  estado          String
+  rua             String
+  numero          String
+  complemeto      String
+  bairro          String
+  referencia      String
+  usuario_id      Int
+  usuario         Usuario    @relation(fields: [usuario_id], references: [id])
+
+  @@map("endereco")
+}
+
+model Inventario {
+    id              Int     @id @default(autoincrement())
+    nome_item       String
+    estoque         Int
+    patrimonio      Int
+    preco_unitario  String
+    preco_total     String
+    movimentacao    Movimentacao[]
+    
+    @@map("inventario")
+}
+
+model Movimentacao {
+    id              Int     @id @default(autoincrement())
+    data_movimento  DateTime  @default(now())
+    tipo_movimento  String
+    nome_cliente    String
+    item            String
+    quantidade      Int
+    custo_total     String
+    inventario_id   Int
+    inventario      Inventario @relation(fields: [inventario_id], references: [id])
+    usuario_id      Int
+    usuario         Usuario    @relation(fields: [usuario_id], references: [id])
+
+    @@map("movimentacao")
+}
