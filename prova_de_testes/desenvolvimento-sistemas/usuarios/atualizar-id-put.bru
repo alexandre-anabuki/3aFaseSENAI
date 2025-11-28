@@ -1,0 +1,21 @@
+meta {
+  name: atualizar-id-put
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://127.0.0.1:3000/usuarios/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "id": 2,
+      "nome": "edio-teste",
+      "email": "edio@teste.com",
+      "senha": "123",
+      "cargo": "Programador"
+    }
+}

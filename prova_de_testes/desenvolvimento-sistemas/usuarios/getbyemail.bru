@@ -1,0 +1,15 @@
+meta {
+  name: getbyemail
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://127.0.0.1:3000/usuarios/byemail?email=edio@teste.com
+  body: none
+  auth: none
+}
+
+params:query {
+  email: edio@teste.com
+}

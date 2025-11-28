@@ -1,4 +1,4 @@
-import  prismaClient  from "@prisma/client";
+import { prismaClient } from "../../../prisma/prismaClient.js";
 
 
 class UsuarioController{
@@ -17,7 +17,7 @@ class UsuarioController{
     async getPorEmail(req, res) {
         try {
           const email = String(req.query.email);
-          const usuario = await prismaClient.usuario.findUnique({
+          const usuario = await prisma.usuario.findUnique({
             where: { email },
           });
           if (!usuario) return res.status(404).send("Usuário não existe!");
@@ -32,7 +32,7 @@ class UsuarioController{
         try {
           console.log("Requisição recebida em /usuarios:", req.body);
       
-        //   const usuario = await prismaClient.usuario.create({
+        //   const usuario = await prisma.usuario.create({
         //     data: {
         //       nome: req.body.nome,
         //       data_nascimento: req.body.data_nascimento,
@@ -43,7 +43,7 @@ class UsuarioController{
         //       telefone: req.body.telefone,
         //     },
         //   });
-        //   const endereco = await prismaClient.endereco.create({
+        //   const endereco = await prisma.endereco.create({
         //     data: {
         //         cep: req.body.cep,
         //         cidade: req.body.cidade,
@@ -75,7 +75,7 @@ class UsuarioController{
         try {
           const { body, params } = req;
       
-          const usuarioAtualizado = await prismaClient.usuario.update({
+          const usuarioAtualizado = await prisma.usuario.update({
             where: { id: Number(params.id) },
             data: { ...body },
           });
@@ -103,7 +103,7 @@ class UsuarioController{
     async deletarUsuario(req, res) {
         try {
             const email = String(req.query.email)
-          const usuarioDeletado = await prismaClient.usuario.delete({
+          const usuarioDeletado = await prisma.usuario.delete({
             where: { email },
           });
           return res.status(200).json({

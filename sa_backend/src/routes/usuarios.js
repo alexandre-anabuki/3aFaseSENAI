@@ -5,12 +5,12 @@ const usuarioRouter = Router()
 
 usuarioRouter.get('/usuarios', usuarioController.getTodosUsuarios)
 
-usuarioRouter.get('/usuarios/:email', usuarioController.getPorEmail)
+usuarioRouter.get('/usuarios/byemail', usuarioController.getPorEmail)
 
 usuarioRouter.post('/usuarios', usuarioController.criarUsuario)
 
 usuarioRouter.put('/usuarios/:id', usuarioController.atualizarUsuario)
 
-usuarioRouter.delete('/usuarios/:email', usuarioController.deletarUsuario)
+usuarioRouter.delete('/usuarios/byemail', usuarioController.deletarUsuario)
 
 export default usuarioRouter

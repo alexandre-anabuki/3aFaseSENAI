@@ -1,7 +1,7 @@
 // Path: src/controller/Auth/AuthController.js
 
 import bcrypt from "bcrypt";
-import { prismaClient } from "../../../prisma/prismaClient.js";
+import { prismaClient } from "../../../prisma/prisma.js";
 import {
     signAccessToken,
     signRefreshToken,
@@ -17,10 +17,10 @@ class AuthController {
         res
     ) {
         try {
-            const { email, password, nome, data_nascimento, rg, cpf, telefone, endereco, cep, cidade, estado, rua, numero, complemento, bairro, referencia } = req.body;
+            const { email, senha, nome, cargo } = req.body;
             // Validação básica
-            if (!email || !password) {
-                return res.status(400).json({ error: "Email e password são obrigatórios" });
+            if (!email || !senha) {
+                return res.status(400).json({ error: "Email e senha são obrigatórios" });
             }
             // Verificar se usuário já existe
             const existingUser = await prismaClient.usuario.findUnique({
@@ -30,34 +30,18 @@ class AuthController {
             if (existingUser) {
                 return res.status(409).json({ error: "Usuário já existe" });
             }
-            // Hash da password com bcrypt
+            // Hash da senha com bcrypt
             const saltRounds = 10;
-            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            const hashedPassword = await bcrypt.hash(senha, saltRounds);
             // Criar usuário no banco de dados
-            const address = await prismaClient.endereco.create({
-                data: { cep: cep, cidade: cidade, rua: rua, estado: estado, bairro: bairro, numero: numero, complemento: complemento, referencia: referencia },
-                select: {
-                    id: true,
-                    email: true,
-                    nome: true,
-                },
-            });
-
-            // const endereco_id = await prismaClient.endereco.
             const user = await prismaClient.usuario.create({
-                data: { email, password: hashedPassword, nome: nome, data_nascimento: data_nascimento, rg: rg, telefone: telefone, cpf: cpf },
+                data: { email, senha: hashedPassword, nome: nome || null, cargo: cargo },
                 select: {
                     id: true,
                     email: true,
                     nome: true,
-                    endereco: address
                 },
             });
-
-
-
-
-
             return res.status(201).json(user);
         } catch (error) {
             console.error("Erro no registro:", error);
@@ -68,9 +52,9 @@ class AuthController {
 
     async login(req, res) {
         try {
-            const { email, password } = req.body;
-            const user = await prismaClient.usuario.findUnique({ where: { email } }); // Verificar se usuário existe e password está correta
-            if (!user || !(await bcrypt.compare(password, user.password))) {
+            const { email, senha } = req.body;
+            const user = await prismaClient.usuario.findUnique({ where: { email } }); // Verificar se usuário existe e senha está correta
+            if (!user || !(await bcrypt.compare(senha, user.senha))) {
                 return res.status(401).json({ error: "Credenciais inválidas" });
             }
             // Gerar access token (curta duração)

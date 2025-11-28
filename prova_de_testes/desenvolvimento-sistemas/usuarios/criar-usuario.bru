@@ -1,0 +1,20 @@
+meta {
+  name: criar-usuario
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:3000/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "edio",
+    "senha": "teste@123",
+    "email": "edio@teste.com",
+    "cargo": "medico"
+  }
+}
