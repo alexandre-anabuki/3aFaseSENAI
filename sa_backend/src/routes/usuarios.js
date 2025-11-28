@@ -1,14 +1,16 @@
 import { Router } from "express";
+import { usuarioController } from "../controller/usuario/UsuarioController.js";
 
-
-export const usuarioRouter = Router()
+const usuarioRouter = Router()
 
 usuarioRouter.get('/usuarios', usuarioController.getTodosUsuarios)
 
-usuarioRouter.get('/usuarios', usuarioController.getPorEmail)
+usuarioRouter.get('/usuarios/:email', usuarioController.getPorEmail)
 
-usuarioRouter.post('/usuarios', usuarioController.criaUsuario)
+usuarioRouter.post('/usuarios', usuarioController.criarUsuario)
 
-usuarioRouter.put('/usuarios', usuarioController.getTodosUsuarios)
+usuarioRouter.put('/usuarios/:id', usuarioController.atualizarUsuario)
 
-usuarioRouter.delete('/usuarios', usuarioController.getTodosUsuarios)
+usuarioRouter.delete('/usuarios/:email', usuarioController.deletarUsuario)
+
+export default usuarioRouter

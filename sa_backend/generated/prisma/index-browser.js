@@ -165,6 +165,15 @@ exports.Prisma.MovimentacaoScalarFieldEnum = {
   usuario_id: 'usuario_id'
 };
 
+exports.Prisma.TokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  type: 'type',
+  usuarioId: 'usuarioId',
+  revoked: 'revoked',
+  expiresAt: 'expiresAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -180,7 +189,8 @@ exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   Endereco: 'Endereco',
   Inventario: 'Inventario',
-  Movimentacao: 'Movimentacao'
+  Movimentacao: 'Movimentacao',
+  Token: 'Token'
 };
 
 /**

@@ -26,6 +26,7 @@ model Usuario {
   telefone        String
   endereco        Endereco[]
   movimentacao    Movimentacao[]
+  token           Token[]
 
   @@map("usuario")
 }
@@ -72,4 +73,16 @@ model Movimentacao {
   usuario        Usuario    @relation(fields: [usuario_id], references: [id])
 
   @@map("movimentacao")
+}
+
+model Token {
+  id        Int      @id @default(autoincrement())
+  token     String   @db.VarChar(255)
+  type      String
+  usuarioId Int
+  revoked   Boolean  @default(value: false)
+  expiresAt DateTime
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+
+  @@map("token")
 }

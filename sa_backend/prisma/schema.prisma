@@ -25,8 +25,10 @@ model Usuario {
   cpf        String
   rg         String
   telefone   String
-  endereco   Endereco[]
+  endereco_id  Int
+  endereco      Endereco @relation (fields: [endereco_id], references: [id])
   movimentacao  Movimentacao[]
+  token       Token[]
 
   @@map("usuario")
 }
@@ -41,8 +43,7 @@ model Endereco {
   complemeto      String
   bairro          String
   referencia      String
-  usuario_id      Int
-  usuario         Usuario    @relation(fields: [usuario_id], references: [id])
+  usuario         Usuario[]
 
   @@map("endereco")
 }
@@ -73,4 +74,16 @@ model Movimentacao {
     usuario         Usuario    @relation(fields: [usuario_id], references: [id])
 
     @@map("movimentacao")
+}
+
+model Token{
+  id        Int      @id @default(autoincrement())
+  token     String   @db.VarChar(255)
+  type      String
+  usuarioId Int
+  revoked   Boolean  @default(value: false)
+  expiresAt DateTime
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+
+  @@map("token")
 }
