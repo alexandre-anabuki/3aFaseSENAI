@@ -1,0 +1,21 @@
+meta {
+  name: criar-prontuario
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:3000/prontuarios/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "descricao": "prontuario de teste",
+    medico_responsavel_id Int
+    paciente_id           Int
+    paciente              Paciente @relation(fields: [paciente_id], references: [id])
+    usuario               Usuario  @relation(fields: [medico_responsavel_id], references: [id])
+  }
+}

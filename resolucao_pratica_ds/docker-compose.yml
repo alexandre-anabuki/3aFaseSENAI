@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: clinic_api_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senai
+      POSTGRES_DB: clinicadb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - clinic_network
+
+  api:
+    build: .
+    container_name: clinic_api
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://postgres:senai@postgres:5432/clinicadb
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - clinic_network
+    command: sh -c "npx prisma migrate deploy && node src/server.js"
+
+  prisma-studio:
+    build: .
+    container_name: clinic_api_prisma_studio
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://postgres:senai@postgres:5432/clinicadb
+    ports:
+      - "5555:5555"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - clinic_network
+    command: sh -c "npx prisma generate && npx prisma studio --hostname 0.0.0.0 --port 5555"
+
+volumes:
+  postgres_data:
+
+networks:
+  clinic_network:
+    driver: bridge
+

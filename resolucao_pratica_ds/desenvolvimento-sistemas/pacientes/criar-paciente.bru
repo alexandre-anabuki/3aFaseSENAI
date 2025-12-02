@@ -1,0 +1,23 @@
+meta {
+  name: criar-paciente
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:3000/pacientes/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "João",
+    "cpf": "958.521.251.65",
+    "telefone": "952556232",
+    "email": "joao@email.com",
+    "data_nascimento": "1980-12-11T00:00:00.000Z",
+    "sexo": "Masculino",
+    "responsavel": null
+  }
+}
