@@ -1,19 +1,36 @@
 {
-  "name": "backend",
-  "private": true,
-  "version": "0.0.0",
+  "name": "clinic_api",
+  "version": "1.0.0",
+  "description": "API for students development clinic project",
   "type": "module",
+  "main": "src/app.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "start": "node --watch src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node prisma/seed.js",
+    "test:esm": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "docs": "node ./swagger-autogen.js"
   },
-  "devDependencies": {
-    "vite": "^7.2.4"
-  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.13.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
-    "express": "^5.2.1"
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "6.13.0",
+    "supertest": "^7.1.4",
+    "swagger-autogen": "^2.23.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
