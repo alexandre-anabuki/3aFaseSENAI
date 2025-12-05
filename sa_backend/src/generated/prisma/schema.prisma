@@ -1,0 +1,83 @@
+generator client {
+  provider     = "prisma-client-js"
+  output       = "../src/generated/prisma"
+  engineType   = "client"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Tabela usuario
+model Usuario {
+  id              Int            @id @default(autoincrement())
+  nome            String
+  email           String         @unique
+  password        String
+  data_nascimento String
+  cpf             String
+  rg              String
+  telefone        String
+  endereco_id     Int
+  endereco        Endereco       @relation(fields: [endereco_id], references: [id])
+  movimentacao    Movimentacao[]
+  token           Token[]
+
+  @@map("usuario")
+}
+
+model Endereco {
+  id         Int       @id @default(autoincrement())
+  cep        String
+  cidade     String
+  estado     String
+  rua        String
+  numero     String
+  complemeto String
+  bairro     String
+  referencia String
+  usuario    Usuario[]
+
+  @@map("endereco")
+}
+
+model Inventario {
+  id             Int            @id @default(autoincrement())
+  nome_item      String
+  estoque        Int
+  patrimonio     Int
+  preco_unitario String
+  preco_total    String
+  movimentacao   Movimentacao[]
+
+  @@map("inventario")
+}
+
+model Movimentacao {
+  id             Int        @id @default(autoincrement())
+  data_movimento DateTime   @default(now())
+  tipo_movimento String
+  nome_cliente   String
+  item           String
+  quantidade     Int
+  custo_total    String
+  inventario_id  Int
+  inventario     Inventario @relation(fields: [inventario_id], references: [id])
+  usuario_id     Int
+  usuario        Usuario    @relation(fields: [usuario_id], references: [id])
+
+  @@map("movimentacao")
+}
+
+model Token {
+  id        Int      @id @default(autoincrement())
+  token     String   @db.VarChar(255)
+  type      String
+  usuarioId Int
+  revoked   Boolean  @default(value: false)
+  expiresAt DateTime
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+
+  @@map("token")
+}

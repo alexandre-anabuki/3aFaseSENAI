@@ -8,11 +8,9 @@ class InventarioController {
   // ============================
   async getTodosItens(req, res) {
     try {
-      const itens = await prismaClient.inventario.findMany({
-        include: { movimentacao: true }
-      });
-
+      const itens = await prismaClient.inventario.findMany()
       return res.json(itens);
+      
     } catch (e) {
       console.error("Erro em getTodosItens:", e);
       return res.status(500).json({ error: "Erro ao buscar itens do inventário" });
@@ -26,7 +24,7 @@ class InventarioController {
     try {
       const item = await prismaClient.inventario.findUnique({
         where: { id: Number(req.params.id) },
-        include: { movimentacao: true }
+        //include: { movimentacao: true }
       });
 
       if (!item) return res.status(404).send("Item não existe!");
