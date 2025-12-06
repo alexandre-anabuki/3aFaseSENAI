@@ -126,15 +126,8 @@ describe("Testes de Integração para /usuarios", () => {
     expect(res.body.data.nome).toBe("usuarioTeste")
   })
 
-    test("DELETE: /usuarios/:id", async () => {
+    test("DELETE: /usuarios/byemail", async () => {
 
-
-
-      // const user = await prismaClient.usuario.findUnique({
-      //   where: {
-      //     email: "testeUsuarioDelete@email.com"
-      //   }
-      // })
 
       const res = await request(app).delete(`/usuarios/byemail`).set("Authorization", `Bearer ${token}`).query({ "email": "testeUsuarioDelete@email.com" })
 
