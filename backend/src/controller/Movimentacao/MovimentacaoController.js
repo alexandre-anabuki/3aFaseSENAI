@@ -14,18 +14,35 @@ class MovimentacaoController{
         }
     }
     
-    async getPorId(req, res) {
+    async getPorItem(req, res) {
         try {
-          const movimentacao = await prismaClient.movimentacao.findUnique({
-            where: { id: Number(req.params.id) },
-          });
-          if (!movimentacao) return res.status(404).send("movimento não existe!");
-          return res.json(movimentacao);
-        } catch (e) {
-          console.error(" Erro em getmovimentacaoPorId:", e);
-          return res.status(500).json({ error: "Erro ao buscar Movimento" });
-        }
+          const item = req.params.item;
+
+          const movimentacoes = await prismaClient.movimentacao.findMany({
+          where: { item }
+        });
+
+    return res.status(200).json(movimentacoes);
+
+      } catch (e) {
+        console.error("Erro em getPorItem:", e);
+        return res.status(500).json({ error: "Erro ao buscar movimentações" });
+      }
     }
+
+
+    // async getPorId(req, res) {
+    //     try {
+    //       const movimentacao = await prismaClient.movimentacao.findUnique({
+    //         where: { id: Number(req.params.id) },
+    //       });
+    //       if (!movimentacao) return res.status(404).send("movimento não existe!");
+    //       return res.json(movimentacao);
+    //     } catch (e) {
+    //       console.error(" Erro em getmovimentacaoPorId:", e);
+    //       return res.status(500).json({ error: "Erro ao buscar Movimento" });
+    //     }
+    // }
     
     async criarMovimento(req, res) {
         try {

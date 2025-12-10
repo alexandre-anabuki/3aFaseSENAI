@@ -7,7 +7,7 @@ const movimentacaoRouter = Router()
 
 movimentacaoRouter.get('/movimentacoes', movimentacaoController.getTodosMovimentos)
 
-movimentacaoRouter.get('/movimentacoes/:id', movimentacaoController.getPorId)
+movimentacaoRouter.get('/movimentacoes/:item', movimentacaoController.getPorItem)
 
 movimentacaoRouter.post('/movimentacoes', movimentacaoController.criarMovimento)
 

@@ -18,8 +18,8 @@ class UsuarioController{
     async getPorEmail(req, res) {
         try {
           const email = String(req.query.email);
-          const usuario = await prisma.usuario.findUnique({
-            where: { email },
+          const usuario = await prismaClient.usuario.findFirst({
+            where: { email: email },
           });
           if (!usuario) return res.status(404).send("Usuário não existe!");
           return res.json(usuario);
@@ -86,7 +86,7 @@ class UsuarioController{
         try {
           const { body, params } = req;
       
-          const usuarioAtualizado = await prisma.usuario.update({
+          const usuarioAtualizado = await prismaClient.usuario.update({
             where: { id: Number(params.id) },
             data: { ...body },
           });
@@ -114,7 +114,7 @@ class UsuarioController{
     async deletarUsuario(req, res) {
         try {
             const email = String(req.query.email)
-          const usuarioDeletado = await prisma.usuario.delete({
+          const usuarioDeletado = await prismaClient.usuario.delete({
             where: { email },
           });
           return res.status(200).json({
